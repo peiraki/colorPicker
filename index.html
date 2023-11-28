@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex-direction: column;
+            gap:20px;
+            font-family: cursive;
+        }
+        button {
+            background: none;
+            font-size: 2rem;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 5px 15px;
+            cursor: pointer;
+            text-shadow: 0 0 2px white;     
+            box-shadow: 0 0 2px white;;   
+    }
+    body input:nth-child(1) {
+        padding: 0;
+        width: 80px;
+        cursor: pointer;
+        margin-top: 100px;
+    }
+    body input:nth-child(3) {
+        padding: 5px;
+        font-size: 1.1rem;
+    }
+    p {
+        color:white;
+        text-shadow: 0 0 2px black;        
+    }
+    .colorsList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap:5px; 
+    }
+    .colorsList div {
+        border:2px solid black;
+        box-shadow: 0 0 2px white;
+        padding: 5px 10px;  
+        cursor: pointer;
+        animation: start .8s linear;
+    }
+    @keyframes start {
+        from {
+            transform: translateY(-100px);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+    .coppied {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: blueviolet;
+        color:white;
+        padding: 1px 10px;
+        border-radius: 10px;
+        visibility: hidden;
+        opacity: 0;
+        transition: 1s;
+    }
+    </style>
+</head>
+<body>
+    <input class="color" type="color">
+    <button onclick="checkColor()">Change & Get Color</button>
+    <input class="text" type="text">
+    <p>Bk ♥ Thanks Later</p>
+    <p>Click on to copy Color (Use <b>double</b>  click to remove)</p>
+    <div class="colorsList">
+        <div id="coppied" class="coppied"></div>
+    </div>
+</body>
+<script>
+    let colorInput = document.querySelector('.color'),
+        body = document.querySelector('body'),
+        getColor = document.querySelector('.text'),
+        colorsList = document.querySelector('.colorsList')
+
+    function checkColor() {
+        body.style.backgroundColor = colorInput.value
+        getColor.value = colorInput.value
+    const colors = document.createElement('div') 
+        colors.style.color = 'white'
+        colorsList.appendChild(colors)
+        colors.innerHTML = colorInput.value
+        colors.style.backgroundColor = colorInput.value
+        colors.onclick = function() {
+            body.style.backgroundColor = colors.innerHTML
+            document.execCommand("copy");
+            coppied.style.visibility = "visible"
+            coppied.style.opacity = "1"
+            coppied.style.backgroundColor = colors.innerHTML
+            coppied.innerHTML = "Your Color Is Coppied " + colors.innerHTML
+            // alert('color is coppied' + ' ' + ' ' + colors.innerHTML)
+            colors.addEventListener("dblclick", () => {
+                colors.remove()
+            });
+        
+        }
+        colors.addEventListener("copy", function(event) {
+        event.preventDefault();
+        if (event.clipboardData) {
+            event.clipboardData.setData("text/plain", colors.textContent);
+            console.log(event.clipboardData.getData("text"))
+        }
+        });
+    }
+    
+</script>
+</html>
